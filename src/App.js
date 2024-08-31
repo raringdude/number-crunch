@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Timer from './Timer';
 
 function App() {
   const [grid, setGrid] = useState([]);
@@ -10,7 +11,13 @@ function App() {
   const [completed, setCompleted] = useState(false);
   const [gridSize, setGridSize] = useState();
   const [winningNumber, setWinningNumber] = useState();
+  const [isRunning, setIsRunning] = useState(false);
+  const [lastTime, setLastTime] = useState(null); // State to store the captured time
+  const [capturedTime, setCapturedTime] = useState({ seconds: 0, milliseconds: 0 });
+  const [reset, setReset] = useState(false);
 
+
+ 
 
   const handleStart_3x3 = () => {
     const numbers = Array.from({ length: 9 }, (_, i) => i + 1);
@@ -23,6 +30,8 @@ function App() {
     setNextNumber(1);
     setGridSize('3x3');
     setWinningNumber(9);
+    handleReset();
+    
 
     // Hide the numbers 1-5 after 5 seconds
     setTimeout(() => {
@@ -30,9 +39,11 @@ function App() {
       const initialCovered = new Set([1, 2, 3, 4, 5]);
       setCovered(initialCovered);
       setStart(true);
+      setIsRunning(true);
+      setReset(false);
     }, 5000);
   };
-
+ 
   const handleStart_5x5 = () => {
     const numbers = Array.from({ length: 25 }, (_, i) => i + 1);
     const shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
@@ -44,6 +55,7 @@ function App() {
     setNextNumber(1);
     setGridSize('5x5');
     setWinningNumber(25);
+    handleReset();
 
     // Hide the numbers 1-5 after 5 seconds
     setTimeout(() => {
@@ -51,19 +63,22 @@ function App() {
       const initialCovered = new Set([1, 2, 3, 4, 5]);
       setCovered(initialCovered);
       setStart(true);
+      setIsRunning(true);
+      setReset(false);
     }, 5000);
   };
 
   const handleClick = (num) => {
     if (start) {
-      
-     
-      
       console.log('Current Covered Set:', Array.from(covered));
       // Check if the clicked number is the next number
       if (num === nextNumber) {
          if(nextNumber == winningNumber){
+            
+            //End Game Goes here
             console.log("You Win")
+            setIsRunning(false);
+            setLastTime()
           }
         // Remove the clicked number from the set
         setCovered(prev => {
@@ -83,8 +98,19 @@ function App() {
         setNextNumber(prev => prev + 1);
       }
     }
+  }; 
+  
+  const handleReset = () => {
+    setIsRunning(false);
+    setCapturedTime({ seconds: 0, milliseconds: 0 });
+    setReset(true); // Trigger the reset in Timer component
+    console.log(reset);
   };
   
+  const handleTimeCaptured = (time) => {
+    setLastTime(time);  // Save the captured time in state
+    console.log('Captured Time:', time); // Log the captured time
+  };
   
 
   return (
@@ -103,6 +129,7 @@ function App() {
         ))}
       </div>
       <div>Next Number: {nextNumber}</div>
+      <Timer isRunning={isRunning} onTimeCaptured={handleTimeCaptured} reset={reset} />
     </div>
   );
 }
