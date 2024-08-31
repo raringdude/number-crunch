@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/number-crunch/static/css/main.a34d0c63.css",
+    "main.js": "/number-crunch/static/js/main.9513ccbb.js",
+    "static/js/453.9c933fd8.chunk.js": "/number-crunch/static/js/453.9c933fd8.chunk.js",
+    "index.html": "/number-crunch/index.html",
+    "main.a34d0c63.css.map": "/number-crunch/static/css/main.a34d0c63.css.map",
+    "main.9513ccbb.js.map": "/number-crunch/static/js/main.9513ccbb.js.map",
+    "453.9c933fd8.chunk.js.map": "/number-crunch/static/js/453.9c933fd8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a34d0c63.css",
+    "static/js/main.9513ccbb.js"
+  ]
+}
